@@ -1,5 +1,5 @@
 const router = require("express").Router({ mergeParams: true });
-const controller = require("./reservations.controller");
+const controller = require("./tables.controller");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 /**
  * Defines the router for reservation resources.
@@ -8,16 +8,9 @@ const methodNotAllowed = require("../errors/methodNotAllowed");
  */
 
 router
-  .route("/:reservationId/status")
-  .get(controller.read)
-  .put(controller.updateStatus);
-
-router.route("/:reservationId/edit").put(controller.update);
-
-router
-  .route("/:reservationId")
-  .get(controller.read)
+  .route("/:tableId/seat")
   .put(controller.update)
+  .delete(controller.delete)
   .all(methodNotAllowed);
 
 router
