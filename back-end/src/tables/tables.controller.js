@@ -48,6 +48,7 @@ function tableNameIsValid(req, res, next) {
   next();
 }
 
+//Ensure table exists
 async function tableExists(req, res, next) {
   const table = await service.read(req.params.tableId);
   if (table) {
@@ -60,6 +61,7 @@ async function tableExists(req, res, next) {
   });
 }
 
+//Ensure reservation exists
 async function reservationExists(req, res, next) {
   if (req.body.data && req.body.data.reservation_id) {
     let { reservation_id } = req.body.data;
