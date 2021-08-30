@@ -4,7 +4,7 @@ const hasProperties = require("../errors/hasProperties");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasRequiredProperties = hasProperties("table_name", "capacity");
 
-//MIDDLEWARE
+//Middleware
 
 const VALID_PROPERTIES = ["table_name", "capacity", "reservation_id"];
 
@@ -24,7 +24,7 @@ function hasOnlyValidProperties(req, res, next) {
   next();
 }
 
-// Capacity must be a number
+//Ensures capacity must be a number
 function capacitytIsValid(req, res, next) {
   const { capacity } = req.body.data;
   if (!Number.isInteger(capacity)) {
@@ -36,19 +36,19 @@ function capacitytIsValid(req, res, next) {
   next();
 }
 
-//Table name must be more than 1 letter
+//Ensures table is more than 1 letter
 function tableNameIsValid(req, res, next) {
   const { table_name } = req.body.data;
   if (table_name.length < 2) {
     return next({
       status: 400,
-      message: `Table name: ${table_name} must greater than one letter.`,
+      message: `table_name is invalid.`,
     });
   }
   next();
 }
 
-//Ensure table exists
+//Ensures that table exists
 async function tableExists(req, res, next) {
   const table = await service.read(req.params.tableId);
   if (table) {
@@ -61,7 +61,7 @@ async function tableExists(req, res, next) {
   });
 }
 
-//Ensure reservation exists
+//Ensures that reservation exists
 async function reservationExists(req, res, next) {
   if (req.body.data && req.body.data.reservation_id) {
     let { reservation_id } = req.body.data;
@@ -97,8 +97,8 @@ async function hasCapacity(req, res, next) {
   });
 }
 
-//Ensure the table is not already occupied
-async function tableIsNotOccupied(req, res, next) {
+//Ensures the table is not already occupied
+async function tableNotOccupied(req, res, next) {
   const table = res.locals.table;
   if (!table.reservation_id) {
     return next();
@@ -109,7 +109,7 @@ async function tableIsNotOccupied(req, res, next) {
   });
 }
 
-//Checks that table is occupied
+//Ensures table is occupied
 async function tableIsOccupied(req, res, next) {
   const tableId = req.params.tableId;
   const table = await service.read(tableId);
@@ -118,13 +118,13 @@ async function tableIsOccupied(req, res, next) {
   } else {
     next({
       status: 400,
-      message: `Table ${table.table_id} is not occupied`,
+      message: `Table is not occupied`,
     });
   }
 }
 
-//Checks reservation seated status
-async function reservationNotSeated(req, res, next) {
+//Ensures table is not already seated
+async function statusSeated(req, res, next) {
   const tableId = req.params.tableId;
   const table = await service.read(tableId);
   const { reservation_id } = req.body.data;
@@ -171,7 +171,6 @@ async function destroy(req, res) {
   const { tableId } = req.params;
   const { reservation_id } = res.locals.table;
   const data = await service.delete(tableId, reservation_id);
-
   res.status(200).json({ data });
 }
 
@@ -188,8 +187,8 @@ module.exports = {
     tableExists,
     reservationExists,
     asyncErrorBoundary(hasCapacity),
-    asyncErrorBoundary(tableIsNotOccupied),
-    asyncErrorBoundary(reservationNotSeated),
+    asyncErrorBoundary(tableNotOccupied),
+    asyncErrorBoundary(statusSeated),
     asyncErrorBoundary(update),
   ],
   delete: [

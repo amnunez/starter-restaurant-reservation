@@ -143,17 +143,11 @@ export async function updateTable(table_id, reservation_id, signal) {
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({ data: { reservation_id } }),
+    body: JSON.stringify({ data: { reservation_id: reservation_id } }),
     signal,
   };
-  const result = await fetchJson(url, options);
-  console.log(
-    "UpdateTable PUT REQUEST (result, url, options):",
-    result,
-    url,
-    options
-  );
-  return result;
+  console.log(">>>>======>>>> UPDATE TABLE API PUT REQUEST:", url, options);
+  return fetchJson(url, options);
 }
 
 export async function finishTable(table_id, signal) {
