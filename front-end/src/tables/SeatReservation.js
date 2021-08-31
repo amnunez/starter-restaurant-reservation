@@ -27,9 +27,7 @@ function SeatReservation() {
     loadTables();
   }, [reservationId]);
 
-  let freeTables = tables.filter(
-    (table) => !table.reservation_id && table.capacity >= reservation.people
-  );
+  let freeTables = tables.filter((table) => !table.reservation_id);
   let list = freeTables.map((table) => {
     return (
       <option key={table.table_id} value={table.table_id}>

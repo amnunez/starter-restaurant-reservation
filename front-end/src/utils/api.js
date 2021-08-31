@@ -146,7 +146,6 @@ export async function updateTable(table_id, reservation_id, signal) {
     body: JSON.stringify({ data: { reservation_id: reservation_id } }),
     signal,
   };
-  console.log(">>>>======>>>> UPDATE TABLE API PUT REQUEST:", url, options);
   return fetchJson(url, options);
 }
 
