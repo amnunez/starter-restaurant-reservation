@@ -20,17 +20,11 @@ function ReservationList({ reservations, handleCancel }) {
           </p>
         </div>
         <div>
-          <button
-            data-reservation-id-cancel={reservation.reservation_id}
-            onClick={handleCancel}
-            value={reservation.reservation_id}
-          >
-            Cancel
-          </button>
           {reservation.status === "booked" ? (
             <>
               <Link to={`/reservations/${reservation.reservation_id}/seat`}>
                 <button
+                  className="btn btn-primary mr-2 mb-3"
                   href={`/reservations/${reservation.reservation_id}/seat`}
                   value={`${reservation.reservation_id}`}
                 >
@@ -39,11 +33,20 @@ function ReservationList({ reservations, handleCancel }) {
               </Link>
               <Link to={`/reservations/${reservation.reservation_id}/edit`}>
                 <button
+                  className="btn btn-primary mr-2 mb-3"
                   href={`/reservations/${reservation.reservation_id}/edit`}
                 >
                   Edit
                 </button>
               </Link>
+              <button
+                className="btn btn-danger mb-3"
+                data-reservation-id-cancel={reservation.reservation_id}
+                onClick={handleCancel}
+                value={reservation.reservation_id}
+              >
+                Cancel
+              </button>
             </>
           ) : (
             ""

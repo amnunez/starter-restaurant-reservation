@@ -62,7 +62,9 @@ function Search() {
             {submitted && reservations.length <= 0 && `No reservations found.`}
           </div>
           <div>
-            <button type="submit">Find</button>
+            <button type="submit" className="btn btn-primary mb-3">
+              Find
+            </button>
           </div>
         </form>
       </div>
